@@ -1,9 +1,581 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Homepage</title>
-  </head>
-  <body>
-    <h1>Hello from my_org</h1>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semantic Foam: Unified Spatial & Semantic Scene Decomposition</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./resources/three.module.js",
+    "three/examples/jsm/controls/OrbitControls.js": "./resources/OrbitControls.js",
+    "three/examples/jsm/loaders/PLYLoader.js": "./resources/PLYLoader.js"
+  }
+}
+</script>
+
+<script type="module" src="./resources/vis.js"></script>
+
+<style>
+  /* Narrow all page margins */
+  .section .container.is-max-desktop {
+    max-width: 900px;        /* narrower width than default (1024px) */
+    padding-left: 0.75rem;   /* tighter side padding */
+    padding-right: 0.75rem;
+  }
+
+  /* Optional: tighten hero title margin */
+  .hero .hero-body {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+</style>
+
+
+<style>
+  .container {
+    max-width: 900px !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+</style>
+
+<style>
+  /* Make the whole page 70% width */
+  .page-wrapper {
+    width: 70%;
+    margin: 0 auto;   /* centers it */
+  }
+</style>
+
+
+<style>
+.section-separator {
+  height: 1px;
+  background: #d0d0d0;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  /* This centers the line */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* This matches the paragraph width exactly */
+  max-width: 820px;  /* Adjust this if needed */
+  width: 100%;
+}
+  </style>
+
+<style>
+  /* Reduce section padding */
+  section.section {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Reduce hero padding */
+  .hero .hero-body {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+
+  /* Reduce spacing between columns and rows */
+  .columns {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .column {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+
+</style>
+
+<body>
+<div class="page-wrapper"></div>
+<!-- =============================== -->
+<!-- TITLE SECTION (NO NAVBAR) -->
+<!-- =============================== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+
+    <h1 class="title is-2 publication-title">Semantic Foam: Unified Spatial & Semantic Scene Decomposition</h1>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- TEASER -->
+<!-- =============================== -->
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body has-text-centered">
+
+      <img src="static/gifs/teaser_github_demo.gif" width="100%" />
+
+      <h2 class="subtitle">
+        Our method enables object-level decomposition, editing, and relighting in complex scenes.
+      </h2>
+    </div>
+  </div>
+</section> -->
+
+<!-- =============================== -->
+<!-- ABSTRACT -->
+<!-- =============================== -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+
+    <div class="content has-text-justified is-size-5">
+      <p>
+        Current generation scene reconstruction methods like 3D Gaussian Splatting are capable of producing photo-realistic novel view synthesis at real-time speeds, yet see only limited adoption in many practical graphics applications.
+        One significant contributing factor to this gap is the difficulty of interacting with and editing these representations in comparison to classic human-authored 3D assets.
+        While work has been done to impose semantic decomposition onto these representations, there are still significant limitations in the quality and consistency of these segmentations.
+        We address this by proposing a semantically decomposed variant of the recently introduced Radiant Foam method.
+        Our approach, <i>Semantic Foam</i>, combines the natural spatial volumetric decomposition provided by Radiant Foam's Voronoi mesh with an explicit semantic feature field parameterized on the cells.
+        The explicit mesh structure enables direct spatial regularization that prevents artifacts caused by inconsistent supervision across views or occlusion, which affect similar approaches for other point-based representations.
+        We show that our method achieves superior performance on object-level segmentation compared to Gaussian Grouping and SAGA.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== -->
+<!-- METHOD -->
+<!-- =============================== -->
+<section class="section">
+<div class="section-separator"></div>
+  <div class="container is-max-desktop has-text-centered">
+    <h2 class="title is-3">Method</h2>
+
+    <img src="./static/images/method_figpng.png" width="100%">
+
+    <p class="content has-text-justified is-size-5">
+The  pipeline of Semantic Foam consists of two primary stages: (left) we begin by preparing
+the inputs using DEVA in everything mode to automatically generate masks for all training views; (middle) given these masked multi-view
+images, we jointly optimize all properties of the 3D Voronoi cells—including their identity encodings – via differentiable rendering,
+supervised by an Identity Loss and a Total Variation (TV) Loss; (right) we illustrate the formulation of the TV Loss, which minimizes the L1
+difference between the identity encodings of each Voronoi site and its neighboring cells.
+    </p>
+  </div>
+</section>
+
+<!-- =============================== -->
+<!-- RESULTS -->
+<!-- =============================== -->
+<section class="section">
+<div class="section-separator"></div>
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Semantic Segmentation</h2>
+
+    <!-- Column Labels (Centered Above Videos) -->
+    <div class="columns is-mobile is-centered" style="margin-bottom: 1rem;">
+      <div class="column is-6 has-text-centered">
+        <p class="is-size-6">Rendered View Points</p>
+      </div>
+      <div class="column is-6 has-text-centered">
+        <p class="is-size-6">Segmentation Maps</p>
+      </div>
+    </div>
+
+    <div class="columns is-multiline is-centered">
+
+      <section class="section">
+        <div class="container">
+          <div class="columns is-multiline is-centered">
+
+            <!-- Garden -->
+            <div class="column is-12">
+              <div class="columns is-centered">
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="./static/videos/results/garden/rgb.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="./static/videos/results/garden/seg.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- MipNeRF360 Kitchen -->
+            <div class="column is-12">
+              <div class="columns is-centered">
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="static/videos/results/kitchen/rgb.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="static/videos/results/kitchen/seg.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- LERF -->
+            <div class="column is-12">
+              <div class="columns is-centered">
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="static/videos/results/lerf/rgb.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="static/videos/results/lerf/seg.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- Horns -->
+            <div class="column is-12">
+              <div class="columns is-centered">
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="static/videos/results/horns/rgb.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="column is-6">
+                  <video autoplay controls muted loop playsinline width="100%">
+                    <source src="static/videos/results/horns/seg.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+<!-- =============================== -->
+<!-- EDITING / APPLICATIONS -->
+<!-- =============================== -->
+
+<style>
+  .qual-img {
+    width: 100%;
+    max-width: 360px; /* larger images */
+  }
+  .columns {
+    margin-bottom: 0.4rem !important; /* tighten row spacing */
+  }
+  .column {
+    padding: 0.15rem !important; /* tighten column spacing */
+  }
+  .qual-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<section class="section">
+<div class="section-separator"></div>
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Scene Editing : Object Insertion Results</h2>
+
+    <!-- Column Labels -->
+    <div class="columns is-centered" style="margin-bottom: 1rem;">
+      <div class="column is-4 has-text-centered">
+        <p class="qual-label">GT Viewpoint</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <p class="qual-label">Ours</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <p class="qual-label">Gaussian Grouping</p>
+      </div>
+    </div>
+
+    <div class="columns is-multiline is-centered">
+
+      <!-- Comparison 1 -->
+      <div class="column is-12">
+        <div class="columns is-vcentered">
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/gt1.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/ours1.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/gg1.png" class="qual-img">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison 2 -->
+      <div class="column is-12">
+        <div class="columns is-vcentered">
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/gt2.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/ours2.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/gg2.png" class="qual-img">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison 2 -->
+      <div class="column is-12">
+        <div class="columns is-vcentered">
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/gt3.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/ours3.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/insertion/gg3.png" class="qual-img">
+          </div>
+
+        </div>
+      </div>
+
+    <p class="content has-text-justified is-size-5">
+      Comparison of object insertion between our semantic foam representation (middle) and Gaussian
+Grouping (right), with the (left) view showing the unedited reference image. Leveraging Radiant Foam’s implicit surface formulation, our
+method defines accurate non-convex 3D object masks without requiring convex-hull post-processing. As shown, our approach cleanly inserts
+the toy and lego in the Kitchen and Fortress scenes respectively, whereas Gaussian Grouping inserts additional noise.
+    </p>
+
+  </div>
+</section>
+
+
+<!-- =============================== -->
+<!-- EDITING / APPLICATIONS -->
+<!-- =============================== -->
+
+<style>
+  .qual-img {
+    width: 100%;
+    max-width: 360px; /* larger images */
+  }
+  .columns {
+    margin-bottom: 0.4rem !important; /* tighten row spacing */
+  }
+  .column {
+    padding: 0.15rem !important; /* tighten column spacing */
+  }
+  .qual-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+</style>
+
+<section class="section">
+<div class="section-separator"></div>
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Scene Editing : Object Removal Results</h2>
+
+    <!-- Column Labels -->
+    <div class="columns is-centered" style="margin-bottom: 1rem;">
+      <div class="column is-4 has-text-centered">
+        <p class="qual-label">GT Viewpoint</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <p class="qual-label">Ours</p>
+      </div>
+      <div class="column is-4 has-text-centered">
+        <p class="qual-label">Gaussian Grouping</p>
+      </div>
+    </div>
+
+    <div class="columns is-multiline is-centered">
+
+      <!-- Comparison 1 -->
+      <div class="column is-12">
+        <div class="columns is-vcentered">
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/gt1.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/ours1.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/gg1.png" class="qual-img">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison 2 -->
+      <div class="column is-12">
+        <div class="columns is-vcentered">
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/gt2.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/ours2.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/gg2.png" class="qual-img">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Comparison 3 -->
+      <div class="column is-12">
+        <div class="columns is-vcentered">
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/gt3.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/ours3.png" class="qual-img">
+          </div>
+
+          <div class="column is-4 has-text-centered">
+            <img src="./static/qualitative/removal/gg3.png" class="qual-img">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <p class="content has-text-justified is-size-5">
+Comparison of object deletion between our semantic foam representation (middle) and Gaussian
+Grouping (right), with the (left) view showing the unedited reference image. Leveraging Radiant Foam’s implicit surface formulation, our
+method defines accurate non-convex 3D object masks without requiring convex-hull post-processing. As illustrated, our approach accurately
+isolates the table and pot in the Garden scene, while Gaussian Grouping over - deletes and erroneously removes the nearby ball due to its
+convexity-restricted mask formulation.
+    </p>
+
+  </div>
+</section>
+
+
+
+
+
+<!-- =============================== -->
+<!-- INTERACTIVE 3D VISUALIZATION -->
+<!-- =============================== -->
+<section class="section">
+<div class="section-separator"></div>
+  <div class="container is-max-desktop has-text-centered">
+
+    <h2 class="title is-3">Interactive 3D Visualization</h2>
+
+
+    <div id="pc-container">
+      <div id="canvas"></div>
+      <div id="controls"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ThreeJS + Viewer Scripts -->
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./resources/three.module.js",
+    "three/examples/jsm/controls/OrbitControls.js": "./resources/OrbitControls.js",
+    "three/examples/jsm/loaders/PLYLoader.js": "./resources/PLYLoader.js"
+  }
+}
+</script>
+
+<script type="module" src="./resources/vis.js"></script>
+
+
+<!-- =============================== -->
+<!-- FOOTER -->
+<!-- =============================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="#">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+    </div>
+
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website template adapted from the Nerfies project (CC BY-SA 4.0).
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+</div>
+
+
+</body>
 </html>
