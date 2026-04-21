@@ -1,0 +1,37 @@
+<section class="section">
+  <div class="container is-max-desktop" id="removal-section">
+
+    <h2 class="title is-3">Scene Editing: Object Removal Results</h2>
+
+    <!-- THUMBNAILS -->
+    <div class="scene-gallery">
+      <img class="scene-thumb active" data-idx="0" src="static/videos/removal/scene1/thumb.jpg">
+      <img class="scene-thumb" data-idx="1" src="static/videos/removal/scene2/thumb.jpg">
+      <img class="scene-thumb" data-idx="2" src="static/videos/removal/scene3/thumb.jpg">
+    </div>
+
+    <!-- RESULT ROW -->
+    <div class="result-row">
+
+      <!-- GT IMAGE -->
+      <img class="gt-image" />
+
+      <!-- SLIDER -->
+      <div class="comparison-container">
+        <div class="video-wrapper slider">
+
+          <video class="video-left" autoplay muted loop playsinline></video>
+          <video class="video-right" autoplay muted loop playsinline></video>
+
+          <div class="slider-line"></div>
+
+          <div class="label left">Ours</div>
+          <div class="label right">Gaussian</div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

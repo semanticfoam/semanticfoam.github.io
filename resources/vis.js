@@ -1,7 +1,17 @@
 import * as THREE from "three";
-import { OrbitControls } from "./OrbitControls.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { PLYLoader } from "./ply.js";
 import GUI from "./lilgui.js";
+
+/**************************************************
+ * DOM CONTAINERS (FIXED)
+ **************************************************/
+const canvasContainer = document.getElementById("canvas");
+const controlsContainer = document.getElementById("controls");
+
+if (!canvasContainer || !controlsContainer) {
+    throw new Error("Missing #canvas or #controls in HTML");
+}
 
 /**************************************************
  * SCENE + CAMERA + RENDERER
@@ -9,53 +19,64 @@ import GUI from "./lilgui.js";
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffffff);
 
-const width = 1000 - 4;
-const height = 800;
+const width = canvasContainer.clientWidth;
+const height = canvasContainer.clientHeight;
 
 const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-camera.up = new THREE.Vector3(0, 0, 1);
-camera.position.set(0, -5, 1);
+camera.position.set(0, -5, 2);
+camera.up.set(0, 0, 1);
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(width, height);
-document.getElementById("canvas").appendChild(renderer.domElement);
+canvasContainer.appendChild(renderer.domElement);
 
-const controls = new OrbitControls(camera, renderer.domElement, scene);
-controls.addEventListener("change", () => renderer.render(scene, camera));
+/**************************************************
+ * CONTROLS
+ **************************************************/
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.update();
 
-scene.add(new THREE.DirectionalLight(0xffffff, 0.5));
+/**************************************************
+ * LIGHTING
+ **************************************************/
+scene.add(new THREE.DirectionalLight(0xffffff, 0.8));
 scene.add(new THREE.AmbientLight(0x404040));
 
+/**************************************************
+ * PLY LOADER
+ **************************************************/
 const plyLoader = new PLYLoader();
 
 /**************************************************
- * DEFINE OBJECTS PER SCENE
+ * SCENE DEFINITIONS
  **************************************************/
 const sceneObjects = {
     "garden": ["table", "vase"],
-    // "kitchen": ["lego"],
+    "kitchen": ["lego"],
+    "fern": ["fern"],
+    "horns": ["dinasour"]
 };
 
 const sceneNames = Object.keys(sceneObjects);
 
 /**************************************************
- * LOAD ONE SCENE
+ * LOAD SCENE (SAFE)
  **************************************************/
 function loadScene(root, objects, visible) {
 
     const sceneGroup = new THREE.Group();
     sceneGroup.visible = visible;
 
-    /******************** SCENE INPUT ********************/
+    // ---------- SCENE INPUT ----------
     const sceneInput = new THREE.Group();
     plyLoader.load(root + "/scene.pts.input.ply", geo => {
+        geo.computeVertexNormals();
         const mat = new THREE.PointsMaterial({ vertexColors: true, size: 0.01 });
         sceneInput.add(new THREE.Points(geo, mat));
         renderer.render(scene, camera);
     });
 
-    /******************** SCENE SEG **********************/
+    // ---------- SCENE SEG ----------
     const sceneSeg = new THREE.Group();
     plyLoader.load(root + "/scene.pts.instance_pred.ply", geo => {
         const mat = new THREE.PointsMaterial({ vertexColors: true, size: 0.01 });
@@ -63,7 +84,7 @@ function loadScene(root, objects, visible) {
         renderer.render(scene, camera);
     });
 
-    /******************** OBJECTS *************************/
+    // ---------- OBJECTS ----------
     const objectsGroup = new THREE.Group();
     const objectWrappers = [];
 
@@ -71,7 +92,7 @@ function loadScene(root, objects, visible) {
         const wrapper = new THREE.Group();
         wrapper.visible = false;
 
-        // load INPUT
+        // INPUT
         plyLoader.load(`${root}/objects/${name}.pts.input.ply`, geo => {
             const mat = new THREE.PointsMaterial({ color: 0x303030, size: 0.01 });
             const pts = new THREE.Points(geo, mat);
@@ -79,7 +100,7 @@ function loadScene(root, objects, visible) {
             wrapper.add(pts);
         });
 
-        // load SEGMENTATION
+        // SEG
         plyLoader.load(`${root}/objects/${name}.pts.instance_pred.ply`, geo => {
             const mat = new THREE.PointsMaterial({ vertexColors: true, size: 0.01 });
             const pts = new THREE.Points(geo, mat);
@@ -119,31 +140,34 @@ const scenesData = sceneNames.map((name, idx) => {
  **************************************************/
 const guiState = {
     currentScene: sceneNames[0],
-    sceneMode: "seg",        // "input", "seg"
-
+    sceneMode: "seg",
     showObject: false,
     selectedObjectName: "",
-    objectMode: "seg",       // "input", "seg"
-
+    objectMode: "seg",
     pointSize: 0.01
 };
 
 let objectDropdown;
 
 /**************************************************
- * REBUILD OBJECT DROPDOWN WHEN SCENE CHANGES
+ * GUI
+ **************************************************/
+const gui = new GUI({ container: controlsContainer });
+
+gui.add(guiState, "currentScene", sceneNames).name("Scene");
+gui.add(guiState, "sceneMode", ["input", "seg"]).name("Scene Mode");
+gui.add(guiState, "showObject").name("Show Object");
+gui.add(guiState, "pointSize", 0.005, 0.05).name("Point Size");
+
+/**************************************************
+ * REBUILD DROPDOWN
  **************************************************/
 function rebuildObjectDropdown() {
-    // DESTROY OLD DROPDOWN
     if (objectDropdown) objectDropdown.destroy();
 
-    const sd = scenesData[ sceneNames.indexOf(guiState.currentScene) ];
+    const sd = scenesData[sceneNames.indexOf(guiState.currentScene)];
 
-    if (sd.objectNames.length === 0) {
-        guiState.selectedObjectName = "";
-        objectDropdown = gui.add({ none: "--- none ---" }, "none");
-        return;
-    }
+    if (sd.objectNames.length === 0) return;
 
     guiState.selectedObjectName = sd.objectNames[0];
 
@@ -154,25 +178,10 @@ function rebuildObjectDropdown() {
     ).name("Object");
 }
 
-/**************************************************
- * GUI
- **************************************************/
-const gui = new GUI({ container: document.getElementById("controls") });
-
-gui.add(guiState, "currentScene", sceneNames).name("Scene");
-
-gui.add(guiState, "sceneMode", ["input", "seg"]).name("Scene Mode");
-
-gui.add(guiState, "showObject").name("Show Object");
-
 rebuildObjectDropdown();
 
-// gui.add(guiState, "objectMode", ["input", "seg"]).name("Object Mode");
-
-gui.add(guiState, "pointSize", 0.005, 0.05).name("Point Size");
-
 /**************************************************
- * GUI UPDATE HANDLER
+ * GUI UPDATE
  **************************************************/
 let lastScene = guiState.currentScene;
 
@@ -188,7 +197,6 @@ gui.onChange(() => {
     scenesData.forEach((sd, idx) => {
 
         sd.sceneGroup.visible = (idx === currIdx);
-
         if (idx !== currIdx) return;
 
         const showScene = !guiState.showObject;
@@ -197,14 +205,9 @@ gui.onChange(() => {
         sd.sceneSeg.visible   = showScene && guiState.sceneMode === "seg";
 
         sd.objects.forEach((obj, oid) => {
-
             const name = sd.objectNames[oid];
 
-            if (!guiState.showObject) {
-                obj.visible = false;
-            } else {
-                obj.visible = (name === guiState.selectedObjectName);
-            }
+            obj.visible = guiState.showObject && (name === guiState.selectedObjectName);
 
             if (obj.children.length === 2) {
                 obj.children[0].visible = guiState.objectMode === "input";
@@ -212,7 +215,9 @@ gui.onChange(() => {
             }
         });
 
-        const applySize = n => { if (n.material) n.material.size = guiState.pointSize; };
+        const applySize = n => {
+            if (n.material) n.material.size = guiState.pointSize;
+        };
 
         sd.sceneInput.traverse(applySize);
         sd.sceneSeg.traverse(applySize);
@@ -222,5 +227,24 @@ gui.onChange(() => {
     renderer.render(scene, camera);
 });
 
-/**************************************************/
-renderer.render(scene, camera);
+/**************************************************
+ * ANIMATION LOOP (IMPORTANT)
+ **************************************************/
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+animate();
+
+/**************************************************
+ * RESIZE HANDLING
+ **************************************************/
+window.addEventListener("resize", () => {
+    const w = canvasContainer.clientWidth;
+    const h = canvasContainer.clientHeight;
+
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
