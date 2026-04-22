@@ -174,4 +174,5 @@ $(document).ready(async function() {
   initImageVideoSection("insertion-section", insertionScenes);
   initImageVideoSection("removal-section", removalScenes);
 
+
 });
