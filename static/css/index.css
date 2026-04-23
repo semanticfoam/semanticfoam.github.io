@@ -9,8 +9,15 @@ body {
 
 .section-divider {
   border-top: 1px solid #ddd;
-  margin: 60px auto;
+  margin: 0 auto;
   max-width: 960px;
+}
+
+/* Uniform vertical spacing for all sections */
+section.section,
+section.hero .hero-body {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 /* ========================= */
@@ -49,12 +56,26 @@ body {
 .publication-venue {
   display: flex;
   justify-content: center;
-  margin: 10px 0 15px;
+  margin: 14px 0 18px;
   width: 100%;
+}
+
+.publication-tag {
+  display: inline-block;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffe0e0, #ffc8c8);
+  color: #b91c1c;
+  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.15);
 }
 
 .publication-affiliations {
   margin-top: 10px;
+  margin-bottom: 20px;
   color: #555;
   display: flex;
   flex-wrap: wrap;
@@ -193,13 +214,11 @@ body {
 .publication-links .button {
   border-radius: 22px;
   padding: 10px 20px;
-  background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
-  color: white;
   border: none;
   transition: all 0.2s ease;
   box-shadow:
-    6px 6px 12px rgba(0, 0, 0, 0.25),
-    -4px -4px 10px rgba(255, 255, 255, 0.05);
+    4px 4px 10px rgba(0, 0, 0, 0.1),
+    -2px -2px 6px rgba(255, 255, 255, 0.5);
 }
 
 .publication-links .button:hover {
@@ -220,12 +239,23 @@ body {
   gap: 6px;
   padding: 12px 22px;
   margin: 0 10px;
-  color: white;
+  color: #333;
   font-weight: 500;
-  background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(0,0,0,0.08);
   transition: all 0.2s ease;
   position: relative;
+}
+
+.publication-links .cell-1 {
+  background: linear-gradient(145deg, #ffc4c4, #ffadad);
+}
+
+.publication-links .cell-2 {
+  background: linear-gradient(145deg, #bde0fe, #a2d2ff);
+}
+
+.publication-links .cell-3 {
+  background: linear-gradient(145deg, #b8f0b8, #a0e4a0);
 }
 
 .publication-links .cell:hover {
@@ -240,7 +270,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  border: 1px solid rgba(255, 80, 80, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* Shape variants */
@@ -294,6 +324,10 @@ body {
 /* ========================= */
 /* METHOD SECTION */
 /* ========================= */
+
+.publication-links {
+  margin-bottom: 50px;
+}
 
 .method-figure {
   width: 100%;
@@ -672,8 +706,8 @@ hr {
 }
 
 .extraction-header span {
-  text-align: center;        /* center over each column */
-  font-size: 14px;
+  text-align: center;
+  font-size: 20px;
   color: #666;
   font-weight: 500;
 }
