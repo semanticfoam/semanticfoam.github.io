@@ -9,7 +9,6 @@ function initVideoComparison(container, scenes, defaultIndex = 0) {
   if (!container) return;
 
   initSlider(container);
-  //]]syncVideos(container);
   attachSceneButtons(container, scenes);
 
   // load first scene
