@@ -138,7 +138,7 @@ function initImageVideoSection(sectionId, scenes) {
 
   // slider + sync
   initSlider(container);
-  syncVideos(container);
+  //syncVideos(container);
 
   // initial load
   setScene(0);
