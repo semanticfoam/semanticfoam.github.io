@@ -455,7 +455,8 @@ section pre {
 }
 
 /* LABELS */
-.label {
+.label,
+.ui-label {
   position: absolute;
   top: 12px;
   padding: 6px 12px;
@@ -514,34 +515,8 @@ section pre {
   object-fit: cover;
 }
 
-/* thumbnails */
-.scene-gallery {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 20px;
-}
+/* thumbnails - consolidated with main gallery */
 
-.scene-thumb {
-  width: 120px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
-}
-
-.scene-thumb:hover {
-  opacity: 1;
-  transform: scale(1.05);
-}
-
-.scene-thumb.active {
-  opacity: 1;
-  border: 2px solid black;
-}
 
 
 .cell {
@@ -571,14 +546,14 @@ svg {
   background: white;
 }
 
-
-
 /* =========================
    VORONOI SECTION STYLE
 ========================= */
 
 #voronoi-section {
   margin-top: 40px;
+  font-family: 'Inter', sans-serif;
+  color: #444;
 }
 
 /* Title */
@@ -591,33 +566,32 @@ svg {
 
 /* Generate Button (matches hero cells) */
 #generateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-family: 'Google Sans', sans-serif;
-  padding: 10px 22px;
+  padding: 12px 22px;
+  margin: 0 10px;
+  border: 1px solid rgba(0,0,0,0.08);
   border-radius: 0;
-  border: none;
   cursor: pointer;
   clip-path: polygon(10% 0%, 90% 5%, 100% 40%, 85% 100%, 15% 95%, 0% 50%);
 
-  background: linear-gradient(135deg, #059669, #10b981);
-  color: white;
+  background: linear-gradient(145deg, #b8f0b8, #a0e4a0);
+  color: #333;
   font-weight: 500;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
 #generateBtn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transform: translateY(-3px) scale(1.05);
 }
 
-/* Slider label */
-#voronoi-section {
-  font-family: 'Inter', sans-serif;
-  color: #444;
+#generateBtn:active {
+  transform: scale(0.95);
 }
-
-/* Slider styling */
 #slider {
   width: 260px;
   margin-top: 10px;
