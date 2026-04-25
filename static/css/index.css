@@ -101,6 +101,14 @@ section.hero .hero-body {
 
 section pre {
   text-align: left;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9 !important;
+  padding: 20px !important;
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 20px auto;
 }
 
 .abstract-box {
@@ -585,11 +593,12 @@ svg {
 #generateBtn {
   font-family: 'Google Sans', sans-serif;
   padding: 10px 22px;
-  border-radius: 999px;
+  border-radius: 0;
   border: none;
   cursor: pointer;
+  clip-path: polygon(10% 0%, 90% 5%, 100% 40%, 85% 100%, 15% 95%, 0% 50%);
 
-  background: linear-gradient(135deg, #6ee7f9, #6366f1);
+  background: linear-gradient(135deg, #059669, #10b981);
   color: white;
   font-weight: 500;
 
@@ -615,7 +624,7 @@ svg {
   appearance: none;
   height: 6px;
   border-radius: 10px;
-  background: linear-gradient(90deg, #6366f1, #6ee7f9);
+  background: linear-gradient(90deg, #059669, #10b981);
   outline: none;
 }
 
@@ -626,7 +635,7 @@ svg {
   height: 16px;
   border-radius: 50%;
   background: white;
-  border: 2px solid #6366f1;
+  border: 2px solid #059669;
   cursor: pointer;
   transition: 0.2s;
 }

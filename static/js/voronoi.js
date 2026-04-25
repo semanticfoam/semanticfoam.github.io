@@ -6,6 +6,30 @@ let points = [];
 let delaunay, voronoi;
 let selected = -1;
 let colors = [];
+let edges = []; // ✅ NEW
+
+// ----------------------
+// BUILD EDGE GRAPH (FIX)
+// ----------------------
+function buildEdges() {
+  const edgeSet = new Set();
+
+  for (let i = 0; i < points.length; i++) {
+    for (const j of delaunay.neighbors(i)) {
+      const a = Math.min(i, j);
+      const b = Math.max(i, j);
+      edgeSet.add(a + "-" + b);
+    }
+  }
+
+  return Array.from(edgeSet).map(e => e.split("-").map(Number));
+}
+
+function getNeighbors(i) {
+  return edges
+    .filter(e => e[0] === i || e[1] === i)
+    .map(e => e[0] === i ? e[1] : e[0]);
+}
 
 // ----------------------
 // INIT
@@ -25,10 +49,8 @@ function initVoronoi() {
     return;
   }
 
-  // generate new random diagram
   btn.onclick = () => generate(points.length || 25);
 
-  // first render
   generate();
 }
 
@@ -41,13 +63,13 @@ function generate(n = 25) {
     Math.random() * height
   ]);
 
-  // stable colors per generation
   colors = d3.range(n).map(() => d3.interpolateRainbow(Math.random()));
 
   delaunay = d3.Delaunay.from(points);
   voronoi = delaunay.voronoi([0, 0, width, height]);
 
-  // pick random selected cell
+  edges = buildEdges(); // ✅ NEW
+
   selected = Math.floor(Math.random() * points.length);
 
   draw();
@@ -78,7 +100,7 @@ function draw() {
     .attr("fill", "black");
 
   const neighborSet = selected !== -1
-    ? new Set(delaunay.neighbors(selected))
+    ? new Set(getNeighbors(selected)) // ✅ FIXED
     : new Set();
 
   const cellData = points.map((p, i) => ({ p, i }));
@@ -103,7 +125,7 @@ function draw() {
       draw();
     });
 
-  // edges
+  // edges (Voronoi lines)
   svg.append("path")
     .attr("d", voronoi.render())
     .attr("fill", "none")
@@ -112,7 +134,7 @@ function draw() {
   if (selected === -1) return;
 
   const [cx, cy] = points[selected];
-  const neighbors = Array.from(delaunay.neighbors(selected));
+  const neighbors = getNeighbors(selected); // ✅ FIXED
 
   // ----------------------
   // NEIGHBOR VISUALIZATION

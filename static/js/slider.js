@@ -10,6 +10,7 @@ function initVideoComparison(container, scenes, defaultIndex = 0) {
 
   initSlider(container);
   attachSceneButtons(container, scenes);
+  syncVideos(container);
 
   // load first scene
   setScene(container, scenes, defaultIndex);
@@ -88,7 +89,7 @@ function syncVideos(container) {
     const diff = Math.abs(v1.currentTime - v2.currentTime);
 
     // prevent jitter
-    if (diff > 0.03) {
+    if (diff > 0.05) {
       v2.currentTime = v1.currentTime;
     }
   });
@@ -111,52 +112,51 @@ function initSlider(container) {
 
   let isDragging = false;
 
-  slider.addEventListener("mousedown", () => isDragging = true);
-  window.addEventListener("mouseup", () => isDragging = false);
+  function updateSlider(clientX) {
+    const rect = slider.getBoundingClientRect();
+    let x = clientX - rect.left;
+
+    x = Math.max(0, Math.min(x, rect.width));
+    const percent = (x / rect.width) * 100;
+
+    sliderLine.style.left = percent + "%";
+    rightVideo.style.clipPath = `inset(0 0 0 ${percent}%)`;
+  }
+
+  // Mouse events
+  slider.addEventListener("mousedown", () => {
+    isDragging = true;
+  });
+
+  window.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
 
   window.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
-
-    const rect = slider.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-
-    x = Math.max(0, Math.min(x, rect.width));
-    const percent = (x / rect.width) * 100;
-
-    sliderLine.style.left = percent + "%";
-    rightVideo.style.clipPath = `inset(0 0 0 ${percent}%)`;
+    e.preventDefault();
+    updateSlider(e.clientX);
   });
 
   slider.addEventListener("click", (e) => {
-    const rect = slider.getBoundingClientRect();
-    let x = e.clientX - rect.left;
-
-    x = Math.max(0, Math.min(x, rect.width));
-    const percent = (x / rect.width) * 100;
-
-    sliderLine.style.left = percent + "%";
-    rightVideo.style.clipPath = `inset(0 0 0 ${percent}%)`;
-  });
-}
-
-function syncVideos(container) {
-  const v1 = container.querySelector(".video-left");
-  const v2 = container.querySelector(".video-right");
-
-  if (!v1 || !v2) return;
-
-  v1.addEventListener("play", () => {
-    v2.currentTime = v1.currentTime;
-    v2.play();
+    updateSlider(e.clientX);
   });
 
-  v1.addEventListener("pause", () => {
-    v2.pause();
+  // Touch events
+  slider.addEventListener("touchstart", (e) => {
+    isDragging = true;
+    e.preventDefault();
   });
 
-  v1.addEventListener("timeupdate", () => {
-    const diff = Math.abs(v1.currentTime - v2.currentTime);
-    if (diff > 0.03) v2.currentTime = v1.currentTime;
+  window.addEventListener("touchend", () => {
+    isDragging = false;
+  });
+
+  window.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const touch = e.touches[0];
+    updateSlider(touch.clientX);
   });
 }
 
