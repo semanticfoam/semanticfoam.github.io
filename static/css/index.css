@@ -7,6 +7,14 @@ body {
   color: #222;
 }
 
+section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .section-divider {
   border-top: 1px solid #ddd;
   margin: 0 auto;
@@ -91,10 +99,14 @@ section.hero .hero-body {
 /* ABSTRACT */
 /* ========================= */
 
+section pre {
+  text-align: left;
+}
+
 .abstract-box {
   margin-top: 30px;
   padding: 25px;
-  text-align: left;
+  text-align: center;
 }
 
 .abstract-box p {
@@ -356,7 +368,7 @@ section.hero .hero-body {
 }
 
 .method-section .title {
-  text-align: left;
+  text-align: center;
 }
 
 /* Description under figure */
