@@ -1,13 +1,15 @@
-
 <section class="section method-section">
   <div class="container is-max-desktop">
 
+    <!-- TITLE -->
     <h2 class="title is-3 publication-title">Method</h2>
 
+    <!-- METHOD FIGURE -->
     <div class="method-figure">
       <img src="static/images/method_figpng.png" alt="Semantic Foam Method Overview">
     </div>
 
+    <!-- DESCRIPTION -->
     <div class="method-description">
       <p class="has-text-justified">
         Our Semantic Foam pipeline consists of three key stages. 
@@ -23,17 +25,38 @@
       </p>
     </div>
 
-    <!-- INTERACTIVE VORONOI -->
-    <div id="voronoi-section" style="text-align: center;">
+    <!-- ===================== -->
+    <!-- INTERACTIVE VORONOI   -->
+    <!-- ===================== -->
+    <div id="voronoi-section">
 
-      <h3>Interactive TV Loss Visualization</h3>
+      <h3 class="voronoi-title">
+        Interactive TV Loss Visualization
+      </h3>
 
-      <button id="generateBtn">Generate Voronoi</button>
-      <br><br>
+      <!-- BUTTON -->
+      <button id="generateBtn">
+        Generate Voronoi
+      </button>
 
+      <!-- TV SLIDER -->
+      <div class="tv-control">
+        <label for="tvSlider">
+          TV smoothing λ:
+          <span id="tvValue">0.00</span>
+        </label>
 
-      
+        <input
+          id="tvSlider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0"
+        >
+      </div>
 
+      <!-- SVG -->
       <svg id="voronoi-svg" width="700" height="450"></svg>
 
     </div>

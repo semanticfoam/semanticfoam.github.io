@@ -724,3 +724,55 @@ hr {
   display: block;
   background: black;
 }
+
+
+
+
+#voronoi-section {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.voronoi-title {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+#generateBtn {
+  border: none;
+  padding: 0.7rem 1.4rem;
+  background: #a8efb5;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
+  margin-bottom: 1rem;
+  transition: 0.2s ease;
+}
+
+#generateBtn:hover {
+  transform: scale(1.05);
+}
+
+.tv-control {
+  margin: 0.75rem auto 1.5rem auto;
+  max-width: 420px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.tv-control input {
+  width: 100%;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+#voronoi-svg {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  background: white;
+  border-radius: 16px;
+  display: block;
+  margin: 0 auto;
+}
