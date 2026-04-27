@@ -785,17 +785,6 @@ svg {
   margin-bottom: 25px;
 }
 
-.card-block .title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--basil-medium), var(--basil-light));
-  border-radius: 2px;
-}
-
 /* Content sections within cards */
 .card-section {
   margin-bottom: 30px;
@@ -910,17 +899,6 @@ svg {
   margin-bottom: 20px;
   position: relative;
   padding-bottom: 10px;
-}
-
-#voronoi-section h3::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 40px;
-  height: 3px;
-  background: var(--basil-medium);
-  border-radius: 2px;
 }
 
 /* TV Control styling */
@@ -1048,18 +1026,6 @@ svg {
   padding-bottom: 10px;
 }
 
-.section .title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--basil-medium), var(--basil-light));
-  border-radius: 2px;
-}
-
 /* Code/Preformatted text cards */
 section pre {
   border: 2px solid rgba(107, 142, 35, 0.15);
@@ -1155,17 +1121,6 @@ section.hero .hero-body {
   position: relative;
   padding-bottom: 15px;
   margin-bottom: 20px;
-}
-
-.box.abstract-box h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--basil-medium), var(--basil-light));
-  border-radius: 2px;
 }
 
 .box.abstract-box p {
