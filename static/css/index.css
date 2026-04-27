@@ -39,23 +39,23 @@ section.hero .hero-body {
 .section-nav {
   position: fixed;
   top: 96px;
-  left: max(18px, calc((100vw - 1120px) / 2));
+  left: 18px;
   z-index: 40;
   display: grid;
-  gap: 14px;
+  gap: 30px;
 }
 
 .section-nav-item {
   position: relative;
   display: grid;
-  grid-template-columns: 18px auto;
+  grid-template-columns: 22px auto;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   width: max-content;
-  min-height: 24px;
+  min-height: 28px;
   padding: 3px 10px 3px 0;
   color: var(--basil-dark, #3d5c1f);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   text-decoration: none;
 }
@@ -67,29 +67,69 @@ section.hero .hero-body {
 }
 
 .section-nav-dot {
+  grid-column: 1;
   justify-self: center;
-  width: 10px;
-  height: 10px;
-  background: #c8c8c8;
+  width: 21px;
+  height: 21px;
+  background: var(--nav-accent, #c8c8c8);
+  opacity: 0.45;
   clip-path: polygon(18% 8%, 76% 0%, 100% 36%, 82% 92%, 28% 100%, 0% 58%);
-  transition: background 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, filter 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.section-nav-item.active .section-nav-dot,
+.section-nav-item:hover .section-nav-dot {
+  opacity: 1;
 }
 
 .section-nav-label {
+  grid-column: 2;
   max-width: 0;
   overflow: hidden;
   opacity: 0;
   white-space: nowrap;
+  text-align: left;
   transform: translateX(-4px);
   transition: max-width 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
 }
 
 .section-nav-item.active .section-nav-dot {
-  width: 12px;
-  height: 12px;
-  background: var(--basil-light, #a3c72a);
-  filter: drop-shadow(0 0 0 rgba(107, 142, 35, 0.2)) drop-shadow(0 0 8px rgba(107, 142, 35, 0.42));
+  width: 24px;
+  height: 24px;
+  background: var(--nav-accent, #a3c72a);
+  filter: drop-shadow(0 0 0 var(--nav-glow, rgba(107, 142, 35, 0.2))) drop-shadow(0 0 8px var(--nav-glow, rgba(107, 142, 35, 0.42)));
   transform: rotate(-8deg);
+}
+
+/* Per-nav-item accent colors */
+.section-nav-item[data-section-target="hero"] {
+  --nav-accent: #ffadad;
+  --nav-glow: rgba(232, 160, 160, 0.5);
+  color: #8b4049;
+}
+
+.section-nav-item[data-section-target="method"] {
+  --nav-accent: #a2d2ff;
+  --nav-glow: rgba(123, 184, 224, 0.5);
+  color: #2d6a8a;
+}
+
+.section-nav-item[data-section-target="results"] {
+  --nav-accent: #b8f0b8;
+  --nav-glow: rgba(139, 196, 139, 0.5);
+  color: #3d6b3d;
+}
+
+.section-nav-item[data-section-target="acknowledgements"] {
+  --nav-accent: #c4b5e0;
+  --nav-glow: rgba(164, 142, 200, 0.5);
+  color: #5a4480;
+}
+
+.section-nav-item[data-section-target="bibtex"] {
+  --nav-accent: #f0c8a0;
+  --nav-glow: rgba(212, 165, 116, 0.5);
+  color: #7a5530;
 }
 
 .section-nav-item:nth-child(2n) .section-nav-dot {
@@ -102,7 +142,7 @@ section.hero .hero-body {
 
 .section-nav-item.active .section-nav-label,
 .section-nav-item:hover .section-nav-label {
-  max-width: 90px;
+  max-width: 140px;
   opacity: 1;
   transform: translateX(0);
 }
@@ -859,32 +899,41 @@ svg {
   vertical-align: middle;
 }
 
-/* Method section card styling */
-.method-figure {
+/* Method overview: figure + description grouped */
+.method-overview {
   background: white;
-  padding: 20px;
+  padding: 25px;
   border-radius: 12px;
-  border: 1px solid rgba(107, 142, 35, 0.1);
+  border: 1px solid rgba(123, 184, 224, 0.2);
+  border-left: 4px solid var(--accent, #7bb8e0);
   margin-bottom: 20px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.method-figure:hover {
-  border-color: rgba(107, 142, 35, 0.15);
-  box-shadow: 0 4px 14px rgba(107, 142, 35, 0.08);
+.method-overview:hover {
+  border-color: rgba(123, 184, 224, 0.3);
+  box-shadow: 0 4px 14px rgba(123, 184, 224, 0.1);
+}
+
+.method-figure {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  margin-bottom: 20px;
 }
 
 .method-figure img {
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(61, 92, 31, 0.1);
+  box-shadow: 0 4px 12px rgba(45, 106, 138, 0.1);
 }
 
 .method-description {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  border: 1px solid rgba(107, 142, 35, 0.1);
-  border-left: 4px solid var(--basil-medium);
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  border-left: none;
 }
 
 /* Voronoi section card */
@@ -893,33 +942,34 @@ svg {
   padding: 30px;
   border-radius: 12px;
   margin-top: 30px;
-  border: 2px solid rgba(107, 142, 35, 0.2);
-  box-shadow: inset 0 0 0 1px rgba(107, 142, 35, 0.1);
+  border: 2px solid rgba(123, 184, 224, 0.25);
+  box-shadow: inset 0 0 0 1px rgba(123, 184, 224, 0.1);
   transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 #voronoi-section:hover {
   box-shadow:
-    inset 0 0 0 1px rgba(107, 142, 35, 0.1),
-    0 8px 22px rgba(107, 142, 35, 0.12);
+    inset 0 0 0 1px rgba(123, 184, 224, 0.1),
+    0 8px 22px rgba(123, 184, 224, 0.12);
   transform: translateY(-2px);
 }
 
 #voronoi-section h3 {
-  color: var(--basil-dark);
+  color: #2d6a8a;
   margin-bottom: 20px;
   position: relative;
   padding-bottom: 10px;
 }
 
-#voronoi-section h3::before {
+#voronoi-section h3::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
   height: 3px;
-  background: var(--basil-medium);
+  background: linear-gradient(90deg, var(--accent, #7bb8e0), var(--accent-light, #a2d2ff));
   border-radius: 2px;
 }
 
@@ -1038,7 +1088,6 @@ svg {
 
 /* Acknowledgements & BibTeX sections */
 .section {
-  background: white;
   border-top: 1px solid rgba(107, 142, 35, 0.08);
 }
 
@@ -1115,11 +1164,90 @@ section pre:hover {
 }
 
 /* ========================= */
+/* PER-SECTION ACCENT COLORS */
+/* ========================= */
+
+div#hero {
+  --accent: #e8a0a0;
+  --accent-light: #ffadad;
+  --accent-glow: rgba(232, 160, 160, 0.4);
+  display: block;
+}
+
+div#method {
+  --accent: #7bb8e0;
+  --accent-light: #a2d2ff;
+  --accent-glow: rgba(123, 184, 224, 0.4);
+  display: block;
+}
+
+div#results {
+  --accent: #8bc48b;
+  --accent-light: #b8f0b8;
+  --accent-glow: rgba(139, 196, 139, 0.4);
+  display: block;
+}
+
+section#acknowledgements {
+  --accent: #a48ec8;
+  --accent-light: #c4b5e0;
+  --accent-glow: rgba(164, 142, 200, 0.4);
+}
+
+section#bibtex {
+  --accent: #d4a574;
+  --accent-light: #f0c8a0;
+  --accent-glow: rgba(212, 165, 116, 0.4);
+}
+
+/* Apply accent to card-block trim */
+div#hero .card-block,
+div#method .card-block,
+div#results .card-block,
+section#acknowledgements .card-block,
+section#bibtex .card-block {
+  border-left-color: var(--accent);
+}
+
+/* Apply accent to title underlines */
+div#hero .card-block .title::after,
+div#method .card-block .title::after,
+div#results .card-block .title::after,
+section#acknowledgements .card-block .title::after,
+section#bibtex .card-block .title::after {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+/* Apply accent to subsection h3 bars */
+div#results .subsection h3::before {
+  background: var(--accent);
+}
+
+/* Apply accent to abstract box */
+div#hero .box.abstract-box {
+  border-left-color: var(--accent);
+}
+
+div#hero .box.abstract-box h2::after {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+/* Apply accent to method description border */
+div#method .method-description {
+  border-left-color: var(--accent);
+}
+
+/* Section title underlines for acknowledgements/bibtex */
+section#acknowledgements .title::after,
+section#bibtex .title::after {
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+}
+
+/* ========================= */
 /* HERO SECTION CARD STYLING */
 /* ========================= */
 
 section.hero {
-  background: white;
   padding: 40px 0;
 }
 
@@ -1137,8 +1265,8 @@ section.hero .hero-body {
 
 .box.abstract-box {
   background: white;
-  border: 2px solid rgba(107, 142, 35, 0.15);
-  border-left: 5px solid var(--basil-medium);
+  border: 2px solid rgba(232, 160, 160, 0.2);
+  border-left: 5px solid #e8a0a0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   margin-top: 30px;
   padding: 40px !important;
@@ -1146,12 +1274,12 @@ section.hero .hero-body {
 }
 
 .box.abstract-box:hover {
-  box-shadow: 0 8px 22px rgba(107, 142, 35, 0.12);
+  box-shadow: 0 8px 22px rgba(232, 160, 160, 0.15);
   transform: translateY(-2px);
 }
 
 .box.abstract-box h2 {
-  color: var(--basil-dark);
+  color: #8b4049;
   position: relative;
   padding-bottom: 15px;
   margin-bottom: 20px;
@@ -1161,10 +1289,11 @@ section.hero .hero-body {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 60px;
   height: 4px;
-  background: linear-gradient(90deg, var(--basil-medium), var(--basil-light));
+  background: linear-gradient(90deg, #e8a0a0, #ffadad);
   border-radius: 2px;
 }
 

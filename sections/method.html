@@ -4,25 +4,26 @@
     <!-- TITLE -->
     <h2 class="title is-3 publication-title">Method</h2>
 
-    <!-- METHOD FIGURE -->
-    <div class="method-figure">
-      <img src="static/images/method_figpng.png" alt="Semantic Foam Method Overview">
-    </div>
+    <!-- METHOD FIGURE + DESCRIPTION -->
+    <div class="method-overview">
+      <div class="method-figure">
+        <img src="static/images/method_figpng.png" alt="Semantic Foam Method Overview">
+      </div>
 
-    <!-- DESCRIPTION -->
-    <div class="method-description card-section">
-      <p class="has-text-justified">
-        Our Semantic Foam pipeline consists of three key stages. 
-        First, we preprocess the input using DEVA in everything mode to automatically 
-        generate object masks across all training views. 
-        Next, given these masked multi-view observations, we jointly optimize the 
-        volumetric Voronoi representation by learning both geometry and semantic 
-        identity encodings through differentiable rendering, supervised by an 
-        Identity Loss and a Total Variation (TV) Loss. 
-        Finally, we enforce spatial consistency by applying the TV Loss over the 
-        Voronoi structure, minimizing the L1 difference between neighboring cell 
-        identity features to produce coherent semantic decomposition across views.
-      </p>
+      <div class="method-description">
+        <p class="has-text-justified">
+          Our Semantic Foam pipeline consists of three key stages.
+          First, we preprocess the input using DEVA in everything mode to automatically
+          generate object masks across all training views.
+          Next, given these masked multi-view observations, we jointly optimize the
+          volumetric Voronoi representation by learning both geometry and semantic
+          identity encodings through differentiable rendering, supervised by an
+          Identity Loss and a Total Variation (TV) Loss.
+          Finally, we enforce spatial consistency by applying the TV Loss over the
+          Voronoi structure, minimizing the L1 difference between neighboring cell
+          identity features to produce coherent semantic decomposition across views.
+        </p>
+      </div>
     </div>
 
     <!-- ===================== -->
