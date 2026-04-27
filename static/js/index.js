@@ -167,6 +167,49 @@ function initSegmentationSection() {
 
 
 // =========================
+// SECTION NAVIGATION
+// =========================
+function initSectionNav() {
+  const navItems = Array.from(document.querySelectorAll(".section-nav-item"));
+  if (!navItems.length) return;
+
+  const sections = navItems
+    .map(item => document.getElementById(item.dataset.sectionTarget))
+    .filter(Boolean);
+
+  function setActive(id) {
+    navItems.forEach(item => {
+      item.classList.toggle("active", item.dataset.sectionTarget === id);
+    });
+  }
+
+  navItems.forEach(item => {
+    item.addEventListener("click", event => {
+      const target = document.getElementById(item.dataset.sectionTarget);
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setActive(item.dataset.sectionTarget);
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    const visible = entries
+      .filter(entry => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+    if (visible) setActive(visible.target.id);
+  }, {
+    rootMargin: "-35% 0px -45% 0px",
+    threshold: [0.05, 0.2, 0.5, 0.8]
+  });
+
+  sections.forEach(section => observer.observe(section));
+}
+
+
+// =========================
 // INIT EVERYTHING
 // =========================
 $(document).ready(async function() {
@@ -183,6 +226,7 @@ $(document).ready(async function() {
 
   initImageVideoSection("insertion-section", insertionScenes);
   initImageVideoSection("removal-section", removalScenes);
+  initSectionNav();
 
 
 });
