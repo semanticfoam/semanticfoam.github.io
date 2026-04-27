@@ -798,3 +798,10 @@ hr {
   color: #555;
   line-height: 1.4;
 }
+
+
+.teaser-shift {
+  display: flex;
+  justify-content: center;
+  transform: translateX(30px); /* adjust value (20–80px) as needed */
+}
