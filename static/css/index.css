@@ -766,7 +766,7 @@ svg {
 }
 
 .card-block:hover {
-  box-shadow: 0 8px 24px rgba(107, 142, 35, 0.12);
+  box-shadow: 0 8px 22px rgba(107, 142, 35, 0.12);
   transform: translateY(-2px);
 }
 
@@ -801,6 +801,7 @@ svg {
 .card-section:hover {
   background: #ffffff;
   border-color: rgba(107, 142, 35, 0.15);
+  box-shadow: 0 4px 14px rgba(107, 142, 35, 0.08);
 }
 
 .card-section p {
@@ -828,7 +829,8 @@ svg {
 }
 
 .subsection:hover {
-  box-shadow: 0 6px 16px rgba(107, 142, 35, 0.1);
+  box-shadow: 0 8px 22px rgba(107, 142, 35, 0.12);
+  transform: translateY(-2px);
 }
 
 .subsection h3 {
@@ -856,6 +858,12 @@ svg {
   border-radius: 12px;
   border: 1px solid rgba(107, 142, 35, 0.1);
   margin-bottom: 20px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.method-figure:hover {
+  border-color: rgba(107, 142, 35, 0.15);
+  box-shadow: 0 4px 14px rgba(107, 142, 35, 0.08);
 }
 
 .method-figure img {
@@ -879,6 +887,14 @@ svg {
   margin-top: 30px;
   border: 2px solid rgba(107, 142, 35, 0.2);
   box-shadow: inset 0 0 0 1px rgba(107, 142, 35, 0.1);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+#voronoi-section:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(107, 142, 35, 0.1),
+    0 8px 22px rgba(107, 142, 35, 0.12);
+  transform: translateY(-2px);
 }
 
 #voronoi-section h3 {
@@ -935,6 +951,13 @@ svg {
   border-radius: 10px;
   margin: 20px 0;
   border: 1px solid rgba(107, 142, 35, 0.08);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.scene-gallery:hover {
+  background: #ffffff;
+  border-color: rgba(107, 142, 35, 0.15);
+  box-shadow: 0 4px 14px rgba(107, 142, 35, 0.08);
 }
 
 .scene-thumb {
@@ -960,6 +983,12 @@ svg {
   border-radius: 10px;
   border: 1px solid rgba(107, 142, 35, 0.1);
   margin: 20px 0;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.comparison-container:hover {
+  border-color: rgba(107, 142, 35, 0.15);
+  box-shadow: 0 4px 14px rgba(107, 142, 35, 0.08);
 }
 
 .video-wrapper {
@@ -970,11 +999,6 @@ svg {
 .section {
   background: white;
   border-top: 1px solid rgba(107, 142, 35, 0.08);
-  transition: all 0.3s ease;
-}
-
-.section:hover {
-  background: #f8f9f7;
 }
 
 .section .title {
@@ -1001,6 +1025,12 @@ section pre {
   background: #f8f9f7 !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   padding: 25px !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+section pre:hover {
+  border-color: rgba(107, 142, 35, 0.2);
+  box-shadow: 0 4px 14px rgba(107, 142, 35, 0.08);
 }
 
 /* Publication links with enhanced styling */
@@ -1071,6 +1101,12 @@ section.hero .hero-body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   margin-top: 30px;
   padding: 40px !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.box.abstract-box:hover {
+  box-shadow: 0 8px 22px rgba(107, 142, 35, 0.12);
+  transform: translateY(-2px);
 }
 
 .box.abstract-box h2 {
