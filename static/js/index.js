@@ -128,11 +128,7 @@ function initImageVideoSection(sectionId, scenes) {
     v1.load();
     v2.load();
 
-    v1.currentTime = 0;
-    v2.currentTime = 0;
-
-    v1.play();
-    v2.play();
+    restartComparisonVideos(v1, v2);
 
     // active thumbnail
     thumbs.forEach((t, idx) => {
@@ -148,7 +144,7 @@ function initImageVideoSection(sectionId, scenes) {
 
   // slider + sync
   initSlider(container);
-  //syncVideos(container);
+  syncVideos(container);
 
   // initial load
   setScene(0);

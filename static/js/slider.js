@@ -2,6 +2,35 @@
 // REUSABLE VIDEO SLIDER SYSTEM
 // =========================
 
+function playVideo(video) {
+  const playPromise = video.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {});
+  }
+}
+
+function waitForVideoReady(video) {
+  if (video.readyState >= 2) return Promise.resolve();
+
+  return new Promise(resolve => {
+    video.addEventListener("loadeddata", resolve, { once: true });
+  });
+}
+
+function restartComparisonVideos(v1, v2, startTime = 0) {
+  if (!v1 || !v2) return;
+
+  v1.pause();
+  v2.pause();
+
+  Promise.all([waitForVideoReady(v1), waitForVideoReady(v2)]).then(() => {
+    v1.currentTime = startTime;
+    v2.currentTime = startTime;
+    playVideo(v1);
+    playVideo(v2);
+  });
+}
+
 // -------------------------
 // INIT EVERYTHING FOR ONE CONTAINER
 // -------------------------
@@ -36,13 +65,7 @@ function setScene(container, scenes, i) {
   v1.load();
   v2.load();
 
-  // play after load (important)
-  v1.onloadeddata = () => {
-    v1.currentTime = 0;
-    v2.currentTime = 0;
-    v1.play();
-    v2.play();
-  };
+  restartComparisonVideos(v1, v2);
 
   // update active buttons
   container.querySelectorAll(".scene-thumb").forEach((btn, idx) => {
@@ -73,11 +96,22 @@ function syncVideos(container) {
   const v2 = container.querySelector(".video-right");  // SEG
 
   if (!v1 || !v2) return;
+  if (container.dataset.videoSyncReady === "true") return;
+  container.dataset.videoSyncReady = "true";
+
+  function correctDrift(threshold = 0.08) {
+    if (v1.paused || v2.paused) return;
+
+    const diff = Math.abs(v1.currentTime - v2.currentTime);
+    if (diff > threshold) {
+      v2.currentTime = v1.currentTime;
+    }
+  }
 
   v1.addEventListener("play", () => {
     if (v2.paused) {
       v2.currentTime = v1.currentTime;
-      v2.play();
+      playVideo(v2);
     }
   });
 
@@ -86,17 +120,14 @@ function syncVideos(container) {
   });
 
   v1.addEventListener("timeupdate", () => {
-    const diff = Math.abs(v1.currentTime - v2.currentTime);
-
-    // prevent jitter
-    if (diff > 0.05) {
-      v2.currentTime = v1.currentTime;
-    }
+    correctDrift();
   });
 
   v1.addEventListener("seeked", () => {
     v2.currentTime = v1.currentTime;
   });
+
+  setInterval(() => correctDrift(0.12), 500);
 }
 
 
@@ -107,10 +138,45 @@ function initSlider(container) {
   const slider = container.querySelector(".slider");
   const sliderLine = container.querySelector(".slider-line");
   const rightVideo = container.querySelector(".video-right");
+  const leftVideo = container.querySelector(".video-left");
 
   if (!slider || !sliderLine || !rightVideo) return;
+  if (slider.dataset.sliderReady === "true") return;
+  slider.dataset.sliderReady = "true";
 
   let isDragging = false;
+  let isAutoPlaying = true;
+  let sliderPercent = 50;
+  let direction = 1;
+  let lastFrameTime = null;
+
+  const controls = document.createElement("div");
+  controls.className = "slider-controls";
+
+  const pauseButton = document.createElement("button");
+  pauseButton.type = "button";
+  pauseButton.className = "slider-control-button";
+  pauseButton.textContent = "Pause";
+  pauseButton.setAttribute("aria-label", "Pause comparison slider animation");
+
+  const resyncButton = document.createElement("button");
+  resyncButton.type = "button";
+  resyncButton.className = "slider-control-button";
+  resyncButton.textContent = "Resync";
+  resyncButton.setAttribute("aria-label", "Resynchronize comparison videos");
+
+  controls.append(pauseButton, resyncButton);
+
+  const comparisonContainer = slider.closest(".comparison-container");
+  if (comparisonContainer && !comparisonContainer.querySelector(".slider-controls")) {
+    comparisonContainer.appendChild(controls);
+  }
+
+  function setSliderPercent(percent) {
+    sliderPercent = Math.max(0, Math.min(percent, 100));
+    sliderLine.style.left = sliderPercent + "%";
+    rightVideo.style.clipPath = `inset(0 0 0 ${sliderPercent}%)`;
+  }
 
   function updateSlider(clientX) {
     const rect = slider.getBoundingClientRect();
@@ -119,8 +185,42 @@ function initSlider(container) {
     x = Math.max(0, Math.min(x, rect.width));
     const percent = (x / rect.width) * 100;
 
-    sliderLine.style.left = percent + "%";
-    rightVideo.style.clipPath = `inset(0 0 0 ${percent}%)`;
+    setSliderPercent(percent);
+  }
+
+  function resyncVideos() {
+    if (!leftVideo || !rightVideo) return;
+    restartComparisonVideos(leftVideo, rightVideo);
+  }
+
+  function updatePauseButton() {
+    pauseButton.textContent = isAutoPlaying ? "Pause" : "Play";
+    pauseButton.setAttribute(
+      "aria-label",
+      isAutoPlaying ? "Pause comparison slider animation" : "Play comparison slider animation"
+    );
+  }
+
+  function animateSlider(timestamp) {
+    if (lastFrameTime === null) lastFrameTime = timestamp;
+    const delta = (timestamp - lastFrameTime) / 1000;
+    lastFrameTime = timestamp;
+
+    if (isAutoPlaying && !isDragging) {
+      const nextPercent = sliderPercent + direction * 14 * delta;
+
+      if (nextPercent >= 100) {
+        direction = -1;
+        setSliderPercent(100);
+      } else if (nextPercent <= 0) {
+        direction = 1;
+        setSliderPercent(0);
+      } else {
+        setSliderPercent(nextPercent);
+      }
+    }
+
+    requestAnimationFrame(animateSlider);
   }
 
   // Mouse events
@@ -142,6 +242,13 @@ function initSlider(container) {
     updateSlider(e.clientX);
   });
 
+  pauseButton.addEventListener("click", () => {
+    isAutoPlaying = !isAutoPlaying;
+    updatePauseButton();
+  });
+
+  resyncButton.addEventListener("click", resyncVideos);
+
   // Touch events
   slider.addEventListener("touchstart", (e) => {
     isDragging = true;
@@ -158,6 +265,10 @@ function initSlider(container) {
     const touch = e.touches[0];
     updateSlider(touch.clientX);
   });
+
+  setSliderPercent(50);
+  updatePauseButton();
+  requestAnimationFrame(animateSlider);
 }
 
 

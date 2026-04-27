@@ -53,11 +53,18 @@ section.hero .hero-body {
   align-items: center;
   gap: 6px;
   width: max-content;
-  min-height: 18px;
+  min-height: 24px;
+  padding: 3px 10px 3px 0;
   color: var(--basil-dark, #3d5c1f);
   font-size: 12px;
   font-weight: 500;
   text-decoration: none;
+}
+
+.section-nav-item::before {
+  content: "";
+  position: absolute;
+  inset: -6px -12px -6px -8px;
 }
 
 .section-nav-dot {
@@ -485,6 +492,8 @@ section pre {
 
 .comparison-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 100%;
 }
@@ -993,6 +1002,39 @@ svg {
 
 .video-wrapper {
   box-shadow: inset 0 0 0 1px rgba(107, 142, 35, 0.15);
+}
+
+.slider-controls {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.slider-control-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  padding: 4px 9px;
+  color: #333;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  background: linear-gradient(145deg, #b8f0b8, #a0e4a0);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 0;
+  clip-path: polygon(10% 0%, 90% 5%, 100% 40%, 85% 100%, 15% 95%, 0% 50%);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.slider-control-button:hover {
+  transform: translateY(-1px) scale(1.03);
+}
+
+.slider-control-button:active {
+  transform: scale(0.95);
 }
 
 /* Acknowledgements & BibTeX sections */
