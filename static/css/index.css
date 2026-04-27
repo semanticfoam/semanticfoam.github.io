@@ -38,12 +38,11 @@ section.hero .hero-body {
 
 .section-nav {
   position: fixed;
-  top: 50%;
+  top: 96px;
   left: max(18px, calc((100vw - 1120px) / 2));
   z-index: 40;
   display: grid;
   gap: 14px;
-  transform: translateY(-50%);
 }
 
 .section-nav-item {

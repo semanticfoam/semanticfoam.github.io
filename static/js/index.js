@@ -190,18 +190,22 @@ function initSectionNav() {
     });
   });
 
-  const observer = new IntersectionObserver(entries => {
-    const visible = entries
-      .filter(entry => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+  function updateActiveSection() {
+    const marker = window.scrollY + window.innerHeight * 0.28;
+    let current = sections[0];
 
-    if (visible) setActive(visible.target.id);
-  }, {
-    rootMargin: "-35% 0px -45% 0px",
-    threshold: [0.05, 0.2, 0.5, 0.8]
-  });
+    sections.forEach(section => {
+      if (section.offsetTop <= marker) {
+        current = section;
+      }
+    });
 
-  sections.forEach(section => observer.observe(section));
+    if (current) setActive(current.id);
+  }
+
+  window.addEventListener("scroll", updateActiveSection, { passive: true });
+  window.addEventListener("resize", updateActiveSection);
+  updateActiveSection();
 }
 
 
