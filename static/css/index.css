@@ -507,12 +507,53 @@ section pre {
   grid-template-columns: 1fr 2fr;
   gap: 16px;
   margin-top: 20px;
+  align-items: center;
 }
 
 .gt-image {
   width: 100%;
   border-radius: 10px;
   object-fit: cover;
+  display: block;
+}
+
+.insertion-reference {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+}
+
+.inserted-object-card {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid rgba(107, 142, 35, 0.22);
+  border-radius: 8px;
+  background: #fff;
+  justify-self: center;
+}
+
+.inserted-object-card span {
+  color: #333;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  order: 2;
+}
+
+.inserted-object-thumb {
+  width: min(110px, 100%);
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  object-fit: cover;
+  display: block;
+  order: 1;
 }
 
 /* thumbnails - consolidated with main gallery */

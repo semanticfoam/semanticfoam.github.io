@@ -14,16 +14,19 @@ const segScenes = [
 const insertionScenes = [
   {
     gt: "static/videos/insertion/garden/gt.jpg",
+    objectThumb: "static/videos/insertion/garden/thumb.jpg",
     ours: "static/videos/insertion/garden/ours.mp4",
     gaussian: "static/videos/insertion/garden/gaussian.mp4"
   },
   {
     gt: "static/videos/insertion/kitchen/gt.jpg",
+    objectThumb: "static/videos/insertion/kitchen/thumb.jpg",
     ours: "static/videos/insertion/kitchen/ours.mp4",
     gaussian: "static/videos/insertion/kitchen/gaussian.mp4"
   },
   {
     gt: "static/videos/insertion/fortress/gt.jpg",
+    objectThumb: "static/videos/insertion/fortress/thumb.jpg",
     ours: "static/videos/insertion/fortress/ours.mp4",
     gaussian: "static/videos/insertion/fortress/gaussian.mp4"
   }
@@ -101,6 +104,8 @@ function initImageVideoSection(sectionId, scenes) {
   if (!container) return;
 
   const gtImg = container.querySelector(".gt-image");
+  const objectThumb = container.querySelector(".inserted-object-thumb");
+  const objectCard = container.querySelector(".inserted-object-card");
   const v1 = container.querySelector(".video-left");
   const v2 = container.querySelector(".video-right");
   const thumbs = container.querySelectorAll(".scene-thumb");
@@ -111,6 +116,11 @@ function initImageVideoSection(sectionId, scenes) {
 
     // update content
     gtImg.src = scene.gt;
+
+    if (objectThumb && objectCard) {
+      objectThumb.src = scene.objectThumb || "";
+      objectCard.hidden = !scene.objectThumb;
+    }
 
     v1.src = scene.ours;
     v2.src = scene.gaussian;
