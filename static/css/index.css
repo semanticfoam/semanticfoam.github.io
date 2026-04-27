@@ -825,17 +825,6 @@ svg {
   margin-bottom: 25px;
 }
 
-.card-block .title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--basil-medium), var(--basil-light));
-  border-radius: 2px;
-}
-
 /* Content sections within cards */
 .card-section {
   margin-bottom: 30px;
@@ -860,7 +849,7 @@ svg {
 }
 
 .card-section h4 {
-  color: var(--basil-dark);
+  color: var(--accent-dark, #3d5c1f);
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -882,7 +871,7 @@ svg {
 }
 
 .subsection h3 {
-  color: var(--basil-dark);
+  color: var(--accent-dark, #3d5c1f);
   position: relative;
   padding-bottom: 10px;
   margin-bottom: 15px;
@@ -955,7 +944,7 @@ svg {
 }
 
 #voronoi-section h3 {
-  color: #2d6a8a;
+  color: var(--accent-dark, #2d6a8a);
   margin-bottom: 20px;
   position: relative;
   padding-bottom: 10px;
@@ -972,7 +961,6 @@ svg {
   background: linear-gradient(90deg, var(--accent, #7bb8e0), var(--accent-light, #a2d2ff));
   border-radius: 2px;
 }
-
 /* TV Control styling */
 .tv-control {
   background: #f8f9f7;
@@ -984,7 +972,7 @@ svg {
 }
 
 .tv-control label {
-  color: var(--basil-dark);
+  color: var(--accent-dark, #3d5c1f);
   font-weight: 500;
   display: block;
   margin-bottom: 10px;
@@ -1092,21 +1080,9 @@ svg {
 }
 
 .section .title {
-  color: var(--basil-dark);
+  color: var(--accent-dark, #3d5c1f);
   position: relative;
   padding-bottom: 10px;
-}
-
-.section .title::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--basil-medium), var(--basil-light));
-  border-radius: 2px;
 }
 
 /* Code/Preformatted text cards */
@@ -1170,6 +1146,7 @@ section pre:hover {
 div#hero {
   --accent: #e8a0a0;
   --accent-light: #ffadad;
+  --accent-dark: #8b4049;
   --accent-glow: rgba(232, 160, 160, 0.4);
   display: block;
 }
@@ -1177,6 +1154,7 @@ div#hero {
 div#method {
   --accent: #7bb8e0;
   --accent-light: #a2d2ff;
+  --accent-dark: #2d6a8a;
   --accent-glow: rgba(123, 184, 224, 0.4);
   display: block;
 }
@@ -1184,6 +1162,7 @@ div#method {
 div#results {
   --accent: #8bc48b;
   --accent-light: #b8f0b8;
+  --accent-dark: #3d6b3d;
   --accent-glow: rgba(139, 196, 139, 0.4);
   display: block;
 }
@@ -1191,12 +1170,14 @@ div#results {
 section#acknowledgements {
   --accent: #a48ec8;
   --accent-light: #c4b5e0;
+  --accent-dark: #5a4480;
   --accent-glow: rgba(164, 142, 200, 0.4);
 }
 
 section#bibtex {
   --accent: #d4a574;
   --accent-light: #f0c8a0;
+  --accent-dark: #7a5530;
   --accent-glow: rgba(212, 165, 116, 0.4);
 }
 
@@ -1279,22 +1260,10 @@ section.hero .hero-body {
 }
 
 .box.abstract-box h2 {
-  color: #8b4049;
+  color: var(--accent-dark, #8b4049);
   position: relative;
   padding-bottom: 15px;
   margin-bottom: 20px;
-}
-
-.box.abstract-box h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 4px;
-  background: linear-gradient(90deg, #e8a0a0, #ffadad);
-  border-radius: 2px;
 }
 
 .box.abstract-box p {
