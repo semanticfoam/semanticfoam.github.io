@@ -193,21 +193,40 @@ section.hero .hero-body {
 .publication-venue {
   display: flex;
   justify-content: center;
-  margin: 14px 0 18px;
+  margin: 24px 0 30px;
   width: 100%;
 }
 
 .publication-tag {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 8px 20px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffe0e0, #ffc8c8);
-  color: #b91c1c;
-  box-shadow: 0 2px 8px rgba(185, 28, 28, 0.15);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  background: none;
+  color: #c41e1e;
+  box-shadow: none;
+}
+
+.publication-tag .confetti {
+  font-size: 2.2rem;
+  display: inline-block;
+  animation: confetti-bounce 2s ease-in-out infinite;
+}
+
+.publication-tag .confetti:last-child {
+  animation-delay: 0.3s;
+}
+
+@keyframes confetti-bounce {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-8deg) scale(1.1); }
+  50% { transform: rotate(0deg) scale(1); }
+  75% { transform: rotate(8deg) scale(1.05); }
 }
 
 .publication-affiliations {
