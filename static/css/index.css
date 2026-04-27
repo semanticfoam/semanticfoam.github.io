@@ -1288,6 +1288,7 @@ section.hero .hero-body {
 .box.abstract-box p {
   color: #333;
   line-height: 1.8;
+  margin-bottom: 1em;
 }
 
 /* SVG container */
