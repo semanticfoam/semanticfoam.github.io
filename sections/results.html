@@ -50,10 +50,14 @@
       <h3 class="title is-4 has-text-centered">Object Insertion</h3>
 
       <p>
-        Comparison of object insertion between our semantic foam representation (middle) and Gaussian Grouping (right), with the (left) view showing the unedited reference image. 
-        Leveraging Radiant Foam’s implicit surface formulation, our method defines accurate non-convex 3D object masks without requiring convex-hull 
-        post-processing. As shown, our approach cleanly inserts the toy and lego in the Kitchen and Fortress scenes respectively, 
-        whereas Gaussian Grouping inserts additional noise.
+        Object insertion comparison between our Semantic Foam representation (left) and
+        Gaussian Grouping (right). The reference (unedited) scene is shown alongside the
+        ground-truth inserted asset, which is extracted from another scene for context.
+        By leveraging Radiant Foam’s implicit surface formulation, our method produces
+        precise non-convex 3D masks without requiring convex-hull post-processing. As a
+        result, inserted objects integrate cleanly and coherently with the scene geometry,
+        whereas Gaussian Grouping introduces visible artifacts and noise around the
+        insertion region.
       </p>
 
       <div class="scene-gallery">
@@ -100,11 +104,13 @@
       <h3 class="title is-4 has-text-centered">Object Removal</h3>
 
       <p class="has-text-justified">
-      
-        Comparison of object deletion between our semantic foam representation (middle) and Gaussian Grouping (right), with the (left) view showing the 
-        unedited reference image. Leveraging Radiant Foam’s implicit surface formulation, our method defines accurate non-convex 3D object masks 
-        without requiring convex-hull post-processing. As illustrated, our approach accurately isolates the table and pot in the Garden scene, 
-        while Gaussian Grouping over - deletes and erroneously removes the nearby ball due to its convexity-restricted mask formulation.
+        Object deletion comparison between our Semantic Foam representation (left) and
+        Gaussian Grouping (right), with the left view showing the unedited reference image.
+        Leveraging Radiant Foam’s implicit surface formulation, our method produces precise
+        non-convex 3D object masks without requiring convex-hull post-processing. As shown,
+        our approach cleanly removes the table and pot in the Garden scene while preserving
+        surrounding objects, whereas Gaussian Grouping over-deletes and incorrectly removes
+        the nearby ball due to its convexity-constrained mask formulation.
       </p>
 
       <div class="scene-gallery">
@@ -135,102 +141,103 @@
 
     </div>
 
-    
     <hr>
     <div id="extraction-section" class="subsection">
 
-    <h3 class="title is-4 has-text-centered">Asset Extraction</h3>
+      <h3 class="title is-4 has-text-centered">Asset Extraction</h3>
 
-    <p class="has-text-justified">
-      We compare ground truth scenes with extracted assets rendered as videos.
-    </p>
+      <p class="has-text-justified">
+        We present qualitative comparisons of our object extraction results with novel view
+        synthesis of the extracted assets, demonstrating their high fidelity. Our approach
+        yields clean, well-localized masks, enabling high-fidelity object extraction.
+      </p>
 
-    <div class="extraction-grid">
+      <div class="extraction-grid">
 
-      <!-- 🔥 HEADER ROW -->
-      <div class="extraction-header">
-        <span>GT</span>
-        <span>Asset</span>
+        <!-- 🔥 HEADER ROW -->
+        <div class="extraction-header">
+          <span>GT</span>
+          <span>Asset</span>
+        </div>
+
+        <!-- ROWS -->
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene1_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline preload="auto">
+            <source src="static/videos/extraction/scene1.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene2_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene2.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene3_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene3.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene4_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene4.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene5_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene5.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene6_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene6.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene7_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene7.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene8_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene8.mp4" type="video/mp4">
+          </video>
+        </div>
+
+
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene10_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene10.mp4" type="video/mp4">
+          </video>
+        </div>
+
+
+        <div class="scene-row">
+          <img src="static/videos/extraction/scene11_gt.jpg" class="gt-img">
+          <video class="asset-video" autoplay muted loop playsinline>
+            <source src="static/videos/extraction/scene11.mp4" type="video/mp4">
+          </video>
+        </div>
+
+
       </div>
-
-      <!-- ROWS -->
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene1_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline preload="auto">
-          <source src="static/videos/extraction/scene1.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene2_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene2.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene3_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene3.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene4_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene4.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene5_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene5.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene6_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene6.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene7_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene7.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene8_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene8.mp4" type="video/mp4">
-        </video>
-      </div>
-
-
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene10_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene10.mp4" type="video/mp4">
-        </video>
-      </div>
-
-
-      <div class="scene-row">
-        <img src="static/videos/extraction/scene11_gt.jpg" class="gt-img">
-        <video class="asset-video" autoplay muted loop playsinline>
-          <source src="static/videos/extraction/scene11.mp4" type="video/mp4">
-        </video>
-      </div>
-
 
     </div>
-
-  </div>
 
   </div>
 
