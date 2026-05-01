@@ -173,6 +173,7 @@ section.hero .hero-body {
 
 .publication-authors,
 .publication-affiliations,
+.publication-footnote,
 .publication-venue {
   font-family: 'Inter', sans-serif;
 }
@@ -241,6 +242,13 @@ section.hero .hero-body {
 
 .publication-affiliations span {
   white-space: nowrap;
+}
+
+.publication-footnote {
+  margin-top: -12px;
+  margin-bottom: 20px;
+  color: #555;
+  text-align: center;
 }
 
 /* ========================= */
